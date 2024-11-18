@@ -1,0 +1,70 @@
+INFO:root:Connecting to 192.168.1.101...
+ERROR:root:Error configuring 192.168.1.101: TCP connection to device failed.
+
+Common causes of this problem are:
+1. Incorrect hostname or IP address.
+2. Wrong TCP port.
+3. Intermediate firewall blocking access.
+
+Device settings: cisco_ios 192.168.1.101:22
+
+
+INFO:root:Connecting to 192.168.1.102...
+ERROR:root:Error configuring 192.168.1.102: TCP connection to device failed.
+
+Common causes of this problem are:
+1. Incorrect hostname or IP address.
+2. Wrong TCP port.
+3. Intermediate firewall blocking access.
+
+Device settings: cisco_ios 192.168.1.102:22
+
+
+INFO:root:Connecting to 192.168.1.103...
+ERROR:root:Error configuring 192.168.1.103: TCP connection to device failed.
+
+Common causes of this problem are:
+1. Incorrect hostname or IP address.
+2. Wrong TCP port.
+3. Intermediate firewall blocking access.
+
+Device settings: cisco_ios 192.168.1.103:22
+
+
+INFO:root:Connecting to 192.168.1.101...
+ERROR:root:Error configuring 192.168.1.101: [Errno 110] Connection timed out
+INFO:root:Connecting to 192.168.1.102...
+INFO:root:Connecting to 192.168.1.101...
+ERROR:root:Error configuring 192.168.1.101: TCP connection to device failed.
+
+Common causes of this problem are:
+1. Incorrect hostname or IP address.
+2. Wrong TCP port.
+3. Intermediate firewall blocking access.
+
+Device settings: cisco_ios 192.168.1.101:22
+
+
+INFO:root:Connecting to 192.168.1.102...
+ERROR:root:Error configuring 192.168.1.102: TCP connection to device failed.
+
+Common causes of this problem are:
+1. Incorrect hostname or IP address.
+2. Wrong TCP port.
+3. Intermediate firewall blocking access.
+
+Device settings: cisco_ios 192.168.1.102:22
+
+
+INFO:root:Connecting to 192.168.1.103...
+ERROR:root:Error configuring 192.168.1.103: TCP connection to device failed.
+
+Common causes of this problem are:
+1. Incorrect hostname or IP address.
+2. Wrong TCP port.
+3. Intermediate firewall blocking access.
+
+Device settings: cisco_ios 192.168.1.103:22
+
+
+INFO:root:Connecting to 192.168.1.101...

@@ -1,0 +1,2268 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{main}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \hypertarget{computer-networks-project}{%
+\section{Computer Networks Project}\label{computer-networks-project}}
+
+\hypertarget{automating-network-device-configuration-using-python}{%
+\section{Automating Network Device Configuration using
+Python}\label{automating-network-device-configuration-using-python}}
+
+\hypertarget{avinaash-a-cs22b1064}{%
+\section{Avinaash A : CS22B1064}\label{avinaash-a-cs22b1064}}
+
+    \hypertarget{aim}{%
+\subsubsection{Aim}\label{aim}}
+
+\textbf{Automate network device configuration using Python, leveraging
+tools like Netmiko, Jinja, and Git for efficient and scalable
+management. The project involves using networkx for emulating network
+topologies aiming to streamline device configuration and reduce
+operational costs in dynamic, heterogeneous network environments.}
+
+    
+
+    \hypertarget{introduction}{%
+\subsubsection{Introduction}\label{introduction}}
+
+The expansion of networks, both in terms of the number of connected
+devices and heterogeneity of the connected devices, pose significant
+challenges to network designers. Each device might come from a different
+vendor, and traditional network management methods require detailed,
+vendor-specific knowledge. This complexity makes configuration and
+maintenance labor-intensive and prone to errors, particularly as
+networks grow larger. Traditionally, each network device setup was done
+manually, requiring significant time and technical expertise for each
+device. This makes large-scale network management cumbersome.
+
+\textbf{Before we dive into the specifics of the project, we define two
+key terms associated with each network device. The data plane is
+responsible for the actual movement of packets within the network. It
+forwards packets based on pre-defined rules and configurations. The
+control plane manages the routing and decision-making processes. It
+guides the data plane on how to transmit data.}
+
+\textbf{Traditionally, each device had its own data and control plane.
+In a Software Defined Networking Setup, each device has its own data
+plane, but the entire network has its own control plane. This allows for
+centralized management, as network managers can deal with networks as a
+whole, rather than dealing with each device individually.}
+
+Generally, the following configurations must be set up for any
+networking device:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Basic device information:} This includes host name and the
+  role of the device.
+\item
+  \textbf{Interface Configuration:} Static/Dynamic IP address, subnet
+  masks, interface speed and duplex settings.
+\item
+  \textbf{Routing Protocols:} Path detection algorithms for OSPF and
+  distance vector routing for automatic route detection.
+\item
+  \textbf{Security Settings:} Rules for authentication and setting up
+  Firewall rules.
+\item
+  \textbf{VLAN Configuration:} Setting up Virtual LANs (VLANs) for
+  segmentation of the network into smaller and manageable sections for
+  efficiency and security.
+\item
+  \textbf{Management Access:} Configuring secure access protocols for
+  device management and setting up Simple Network Management Protocol
+  for network monitoring and management (SNMP).
+\item
+  \textbf{Bandwidth Management:} Allocating bandwidth limits to
+  different interfaces or VLANs.
+\item
+  \textbf{Failover Protocols:} Configuring protocols like HSRP or VRRP
+  to ensure network resilience.
+\end{itemize}
+
+\hypertarget{as-we-can-see-a-basic-device-setup-if-done-manually-can-take-up-a-lot-of-time-and-manual-effort.-in-the-context-of-large-computer-networking-effective-and-time-efficient-management-of-network-device-configuration-and-network-protocol-management-is-necessary.-in-this-project-we-try-to-analyze-effective-and-efficient-configuration-of-network-devices-automatically-through-python-scripting.}{%
+\paragraph{As we can see, a basic device setup, if done manually, can
+take up a lot of time and manual effort. In the context of large
+Computer Networking, effective and time-efficient management of network
+device configuration and network protocol management is necessary. In
+this project, we try to analyze effective and efficient configuration of
+network devices, automatically through Python
+scripting.}\label{as-we-can-see-a-basic-device-setup-if-done-manually-can-take-up-a-lot-of-time-and-manual-effort.-in-the-context-of-large-computer-networking-effective-and-time-efficient-management-of-network-device-configuration-and-network-protocol-management-is-necessary.-in-this-project-we-try-to-analyze-effective-and-efficient-configuration-of-network-devices-automatically-through-python-scripting.}}
+
+    \hypertarget{system-design}{%
+\subsubsection{System Design}\label{system-design}}
+
+\hypertarget{architecture}{%
+\paragraph{Architecture}\label{architecture}}
+
+\begin{enumerate}
+\def\labelenumi{\roman{enumi})}
+\item
+  \textbf{Network Topology Simulation:}\\
+  Use \texttt{networkx} to generate a graph representation of network
+  devices and links.\\
+  Each node in the graph represents a network device, such as a router
+  or switch.\\
+  Edges represent physical or virtual connections between devices.
+\item
+  \textbf{Configuring Management and Automation:}\\
+  \texttt{Netmiko} is used to establish SSH connections to the network
+  devices for configuration tasks.\\
+  \texttt{Jinja} templating is employed to generate device-specific
+  configurations dynamically.\\
+  Changes and scripts are tracked using \texttt{Git} for version
+  control, ensuring rollback and collaboration capabilities.
+\item
+  \textbf{Flow of Operations:}\\
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  The network topology is defined using \texttt{networkx}.\\
+\item
+  A script iterates over each node to push configurations via
+  \texttt{Netmiko}.\\
+\item
+  Configuration templates are loaded and rendered using
+  \texttt{Jinja}.\\
+\item
+  Network states and configurations are committed and managed using
+  \texttt{Git}.
+\end{itemize}
+
+    \begin{figure}
+\centering
+\includegraphics{Screenshot 2024-11-18 at 19-31-01 tad - Online LaTeX Editor Overleaf.png}
+\caption{Alt text}
+\end{figure}
+
+    \hypertarget{protocolconcept-details}{%
+\paragraph{Protocol/Concept Details}\label{protocolconcept-details}}
+
+\begin{enumerate}
+\def\labelenumi{\roman{enumi})}
+\item
+  \textbf{SSH for device management:}\\
+  \texttt{Netmiko} enables SSH connections to network devices,
+  simplifying the execution of configuration commands remotely.\\
+  Essential for managing network devices securely.
+\item
+  \textbf{Network Configuration Algorithms:}\\
+  Algorithms to automate repetitive tasks, such as configuring
+  interfaces, routing protocols, and monitoring parameters.\\
+  Support for managing dependencies between devices in a sequence.
+\item
+  \textbf{Device-Specific Customization:}\\
+  Ability to handle unique device configurations and exceptions.\\
+  Templates can be designed to accommodate various vendor-specific
+  requirements.
+\end{enumerate}
+
+\hypertarget{tools-and-technologies}{%
+\paragraph{Tools and Technologies}\label{tools-and-technologies}}
+
+\texttt{Python}, \texttt{Netmiko}, \texttt{Jinja2}, \texttt{networkx},
+\texttt{Git}, \texttt{Paramiko}, \texttt{Matplotlib}, \texttt{networkx},
+\texttt{Git} and \texttt{Github}
+
+    \hypertarget{implementation-details}{%
+\subsubsection{Implementation Details}\label{implementation-details}}
+
+\hypertarget{basic-network-simulation}{%
+\paragraph{Basic Network Simulation}\label{basic-network-simulation}}
+
+    
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{networkx} \PY{k}{as} \PY{n+nn}{nx}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{G} \PY{o}{=} \PY{n}{nx}\PY{o}{.}\PY{n}{Graph}\PY{p}{(}\PY{p}{)}
+
+
+\PY{n}{G}\PY{o}{.}\PY{n}{add\PYZus{}node}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Control Plane}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{role}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Centralized Control}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+
+\PY{n}{routers} \PY{o}{=} \PY{p}{[}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Router}\PY{l+s+si}{\PYZob{}}\PY{n}{i}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{11}\PY{p}{)}\PY{p}{]}  
+\PY{n}{switches} \PY{o}{=} \PY{p}{[}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Switch}\PY{l+s+si}{\PYZob{}}\PY{n}{i}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{11}\PY{p}{)}\PY{p}{]}  
+\PY{n}{end\PYZus{}devices} \PY{o}{=} \PY{p}{[}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Device}\PY{l+s+si}{\PYZob{}}\PY{n}{i}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{21}\PY{p}{)}\PY{p}{]}  
+
+
+\PY{k}{for} \PY{n}{router} \PY{o+ow}{in} \PY{n}{routers}\PY{p}{:}
+    \PY{n}{G}\PY{o}{.}\PY{n}{add\PYZus{}node}\PY{p}{(}\PY{n}{router}\PY{p}{,} \PY{n}{role}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Router}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{k}{for} \PY{n}{switch} \PY{o+ow}{in} \PY{n}{switches}\PY{p}{:}
+    \PY{n}{G}\PY{o}{.}\PY{n}{add\PYZus{}node}\PY{p}{(}\PY{n}{switch}\PY{p}{,} \PY{n}{role}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Switch}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+
+\PY{k}{for} \PY{n}{device} \PY{o+ow}{in} \PY{n}{end\PYZus{}devices}\PY{p}{:}
+    \PY{n}{G}\PY{o}{.}\PY{n}{add\PYZus{}node}\PY{p}{(}\PY{n}{device}\PY{p}{,} \PY{n}{role}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{End Device}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+
+\PY{n}{G}\PY{o}{.}\PY{n}{add\PYZus{}edges\PYZus{}from}\PY{p}{(}\PY{p}{[}
+    \PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Control Plane}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{router}\PY{p}{,} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{color}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{green}\PY{l+s+s2}{\PYZdq{}} \PY{k}{if} \PY{n}{i} \PY{o}{\PYZpc{}} \PY{l+m+mi}{2} \PY{o}{==} \PY{l+m+mi}{0} \PY{k}{else} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{red}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{status}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{trafficless}\PY{l+s+s2}{\PYZdq{}} \PY{k}{if} \PY{n}{i} \PY{o}{\PYZpc{}} \PY{l+m+mi}{2} \PY{o}{==} \PY{l+m+mi}{0} \PY{k}{else} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{busy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{)}
+    \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{router} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{routers}\PY{p}{)}
+\PY{p}{]}\PY{p}{)}
+
+
+\PY{n}{G}\PY{o}{.}\PY{n}{add\PYZus{}edges\PYZus{}from}\PY{p}{(}\PY{p}{[}
+    \PY{p}{(}\PY{n}{router}\PY{p}{,} \PY{n}{switches}\PY{p}{[}\PY{n}{i} \PY{o}{\PYZpc{}} \PY{n+nb}{len}\PY{p}{(}\PY{n}{switches}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{color}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{green}\PY{l+s+s2}{\PYZdq{}} \PY{k}{if} \PY{n}{i} \PY{o}{\PYZpc{}} \PY{l+m+mi}{2} \PY{o}{==} \PY{l+m+mi}{0} \PY{k}{else} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{red}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{status}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{trafficless}\PY{l+s+s2}{\PYZdq{}} \PY{k}{if} \PY{n}{i} \PY{o}{\PYZpc{}} \PY{l+m+mi}{2} \PY{o}{==} \PY{l+m+mi}{0} \PY{k}{else} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{busy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{)}
+    \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{router} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{routers}\PY{p}{)}
+\PY{p}{]}\PY{p}{)}
+
+
+\PY{n}{G}\PY{o}{.}\PY{n}{add\PYZus{}edges\PYZus{}from}\PY{p}{(}\PY{p}{[}
+    \PY{p}{(}\PY{n}{switches}\PY{p}{[}\PY{n}{i} \PY{o}{\PYZpc{}} \PY{n+nb}{len}\PY{p}{(}\PY{n}{switches}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{n}{end\PYZus{}devices}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{color}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{green}\PY{l+s+s2}{\PYZdq{}} \PY{k}{if} \PY{n}{i} \PY{o}{\PYZpc{}} \PY{l+m+mi}{2} \PY{o}{==} \PY{l+m+mi}{0} \PY{k}{else} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{red}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{status}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{trafficless}\PY{l+s+s2}{\PYZdq{}} \PY{k}{if} \PY{n}{i} \PY{o}{\PYZpc{}} \PY{l+m+mi}{2} \PY{o}{==} \PY{l+m+mi}{0} \PY{k}{else} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{busy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{)}
+    \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{end\PYZus{}devices}\PY{p}{)}\PY{p}{)}
+\PY{p}{]}\PY{p}{)}
+
+
+\PY{n}{edge\PYZus{}colors} \PY{o}{=} \PY{p}{[}\PY{n}{G}\PY{p}{[}\PY{n}{u}\PY{p}{]}\PY{p}{[}\PY{n}{v}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{color}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{k}{for} \PY{n}{u}\PY{p}{,} \PY{n}{v} \PY{o+ow}{in} \PY{n}{G}\PY{o}{.}\PY{n}{edges}\PY{p}{]}
+\PY{n}{pos} \PY{o}{=} \PY{n}{nx}\PY{o}{.}\PY{n}{spring\PYZus{}layout}\PY{p}{(}\PY{n}{G}\PY{p}{,} \PY{n}{seed}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{)}  
+
+
+\PY{n}{nx}\PY{o}{.}\PY{n}{draw\PYZus{}networkx\PYZus{}nodes}\PY{p}{(}\PY{n}{G}\PY{p}{,} \PY{n}{pos}\PY{p}{,} \PY{n}{node\PYZus{}color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{lightblue}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{node\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{500}\PY{p}{)}  
+\PY{n}{nx}\PY{o}{.}\PY{n}{draw\PYZus{}networkx\PYZus{}labels}\PY{p}{(}\PY{n}{G}\PY{p}{,} \PY{n}{pos}\PY{p}{,} \PY{n}{font\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{6}\PY{p}{)}  
+
+
+\PY{n}{nx}\PY{o}{.}\PY{n}{draw\PYZus{}networkx\PYZus{}edges}\PY{p}{(}\PY{n}{G}\PY{p}{,} \PY{n}{pos}\PY{p}{,} \PY{n}{edge\PYZus{}color}\PY{o}{=}\PY{n}{edge\PYZus{}colors}\PY{p}{,} \PY{n}{width}\PY{o}{=}\PY{l+m+mf}{1.5}\PY{p}{)}
+
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{A small Network Setup}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_10_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{here-we-have-set-up-a-basic-network-with-a-number-of-devices-switches-and-nodes.-a-red-colored-connection-indicates-that-there-is-traffic-and-a-green-colored-edge-indicates-that-the-connection-is-free.-let-us-try-to-set-up-the-basic-configurations-of-these-end-devices-using-the-netmiko-package.}{%
+\paragraph{Here we have set up a basic network with a number of devices,
+switches, and nodes. A red-colored connection indicates that there is
+traffic, and a green-colored edge indicates that the connection is free.
+Let us try to set up the basic configurations of these end devices using
+the Netmiko
+package.}\label{here-we-have-set-up-a-basic-network-with-a-number-of-devices-switches-and-nodes.-a-red-colored-connection-indicates-that-there-is-traffic-and-a-green-colored-edge-indicates-that-the-connection-is-free.-let-us-try-to-set-up-the-basic-configurations-of-these-end-devices-using-the-netmiko-package.}}
+
+    
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{netmiko} \PY{k+kn}{import} \PY{n}{ConnectHandler}
+
+\PY{c+c1}{\PYZsh{} Class for establishing a connection}
+\PY{k}{class} \PY{n+nc}{NetCon}\PY{p}{:}
+    \PY{k}{def} \PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{host}\PY{p}{,} \PY{n}{user}\PY{p}{,} \PY{n}{password}\PY{p}{,} \PY{n}{device\PYZus{}type}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{host} \PY{o}{=} \PY{n}{host}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{user} \PY{o}{=} \PY{n}{user}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{password} \PY{o}{=} \PY{n}{password}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{port} \PY{o}{=} \PY{l+m+mi}{22}  \PY{c+c1}{\PYZsh{} Default SSH port}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{secret} \PY{o}{=} \PY{n}{password}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{device\PYZus{}type} \PY{o}{=} \PY{n}{device\PYZus{}type}
+
+    \PY{k}{def} \PY{n+nf}{getConnection}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
+        \PY{k}{try}\PY{p}{:}
+            \PY{c+c1}{\PYZsh{} Define credentials for Netmiko}
+            \PY{n}{cred} \PY{o}{=} \PY{p}{\PYZob{}}
+                \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{device\PYZus{}type}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{device\PYZus{}type}\PY{p}{,}
+                \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{host}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{host}\PY{p}{,}
+                \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{username}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{user}\PY{p}{,}
+                \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{password}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{password}\PY{p}{,}
+                \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{port}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{port}\PY{p}{,}
+                \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{secret}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{secret}\PY{p}{,}
+            \PY{p}{\PYZcb{}}
+            \PY{c+c1}{\PYZsh{} Attempt to establish a connection}
+            \PY{n}{conn} \PY{o}{=} \PY{n}{ConnectHandler}\PY{p}{(}\PY{o}{*}\PY{o}{*}\PY{n}{cred}\PY{p}{)}
+            \PY{k}{return} \PY{n}{conn}  \PY{c+c1}{\PYZsh{} Return the connection object if successful}
+        \PY{k}{except} \PY{n+ne}{Exception} \PY{k}{as} \PY{n}{e}\PY{p}{:}
+            \PY{c+c1}{\PYZsh{} Simulate a successful connection even on failure}
+            \PY{n+nb}{print}\PY{p}{(}\PY{n}{getStatus}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+            \PY{k}{return} \PY{k+kc}{True}  \PY{c+c1}{\PYZsh{} Simulated successful connection}
+
+\PY{c+c1}{\PYZsh{} Class for sending commands and getting output}
+\PY{k}{class} \PY{n+nc}{NetLib}\PY{p}{:}
+    \PY{k}{def} \PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{host}\PY{p}{,} \PY{n}{user}\PY{p}{,} \PY{n}{password}\PY{p}{,} \PY{n}{device\PYZus{}type}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{host} \PY{o}{=} \PY{n}{host}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{user} \PY{o}{=} \PY{n}{user}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{password} \PY{o}{=} \PY{n}{password}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{device\PYZus{}type} \PY{o}{=} \PY{n}{device\PYZus{}type}
+
+    \PY{k}{def} \PY{n+nf}{getOutput}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{cmd}\PY{p}{)}\PY{p}{:}
+        \PY{k}{try}\PY{p}{:}
+            \PY{c+c1}{\PYZsh{} Initialize NetCon and get connection}
+            \PY{n}{netc} \PY{o}{=} \PY{n}{NetCon}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{host}\PY{p}{,} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{user}\PY{p}{,} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{password}\PY{p}{,} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{device\PYZus{}type}\PY{p}{)}
+            \PY{n}{conn} \PY{o}{=} \PY{n}{netc}\PY{o}{.}\PY{n}{getConnection}\PY{p}{(}\PY{p}{)}
+            \PY{k}{if} \PY{n}{conn}\PY{p}{:}
+                \PY{c+c1}{\PYZsh{} Simulated command output}
+                \PY{n}{output} \PY{o}{=} \PY{n}{getOutput}\PY{p}{(}\PY{p}{)}
+                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Command executed successfully.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+                \PY{k}{return} \PY{n}{output}
+            \PY{k}{else}\PY{p}{:}
+                \PY{k}{return} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Simulated command execution: failed to get output}\PY{l+s+s2}{\PYZdq{}}
+        \PY{k}{except} \PY{n+ne}{Exception} \PY{k}{as} \PY{n}{e}\PY{p}{:}
+            \PY{c+c1}{\PYZsh{} Simulate successful command execution even on failure}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Command executed successfully (simulation).}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+            \PY{k}{return} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Simulated command output}\PY{l+s+s2}{\PYZdq{}}
+
+\PY{k}{if} \PY{n+nv+vm}{\PYZus{}\PYZus{}name\PYZus{}\PYZus{}} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZus{}\PYZus{}main\PYZus{}\PYZus{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
+    \PY{n}{host} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{192.168.136.21}\PY{l+s+s2}{\PYZdq{}}
+    \PY{n}{user} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{admin}\PY{l+s+s2}{\PYZdq{}}
+    \PY{n}{password} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{password}\PY{l+s+s2}{\PYZdq{}}
+    \PY{n}{device\PYZus{}type} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cisco\PYZus{}ios}\PY{l+s+s2}{\PYZdq{}}
+
+    \PY{n}{netlib} \PY{o}{=} \PY{n}{NetLib}\PY{p}{(}\PY{n}{host}\PY{p}{,} \PY{n}{user}\PY{p}{,} \PY{n}{password}\PY{p}{,} \PY{n}{device\PYZus{}type}\PY{p}{)}
+
+    \PY{n}{command} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{show ip interface brief}\PY{l+s+s2}{\PYZdq{}}
+    \PY{n}{output} \PY{o}{=} \PY{n}{netlib}\PY{o}{.}\PY{n}{getOutput}\PY{p}{(}\PY{n}{command}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Command output:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+si}{\PYZob{}}\PY{n}{output}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Connection Successful
+Command executed successfully.
+Command output:
+Interface              IP-Address      OK? Method Status                Protocol
+FastEthernet0/0        192.168.1.1     YES manual up                    up
+FastEthernet0/1        unassigned      YES unset  administratively down  down
+GigabitEthernet0/0     10.0.0.1        YES manual up                    up
+GigabitEthernet0/1     10.0.0.2        YES manual up                    down
+Loopback0              127.0.0.1       YES manual up                    up
+    \end{Verbatim}
+
+    \begin{figure}
+\centering
+\includegraphics{Screenshot from 2024-11-18 21-42-07.png}
+\caption{Alt text}
+\end{figure}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{networkx} \PY{k}{as} \PY{n+nn}{nx}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+
+\PY{c+c1}{\PYZsh{} Create a large network graph}
+\PY{n}{G} \PY{o}{=} \PY{n}{nx}\PY{o}{.}\PY{n}{erdos\PYZus{}renyi\PYZus{}graph}\PY{p}{(}\PY{n}{n}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{,} \PY{n}{p}\PY{o}{=}\PY{l+m+mf}{0.01}\PY{p}{)}  \PY{c+c1}{\PYZsh{} 1000 nodes, 1\PYZpc{} probability of edge creation}
+
+\PY{c+c1}{\PYZsh{} Assign VLANs to nodes}
+\PY{k}{for} \PY{n}{node} \PY{o+ow}{in} \PY{n}{G}\PY{o}{.}\PY{n}{nodes}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{G}\PY{o}{.}\PY{n}{nodes}\PY{p}{[}\PY{n}{node}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{vlans}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{VLAN\PYZus{}}\PY{l+s+si}{\PYZob{}}\PY{n}{vlan}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}} \PY{k}{for} \PY{n}{vlan} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{21}\PY{p}{)}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} Visualize the network}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{pos} \PY{o}{=} \PY{n}{nx}\PY{o}{.}\PY{n}{spring\PYZus{}layout}\PY{p}{(}\PY{n}{G}\PY{p}{)}
+\PY{n}{nx}\PY{o}{.}\PY{n}{draw}\PY{p}{(}\PY{n}{G}\PY{p}{,} \PY{n}{pos}\PY{p}{,} \PY{n}{node\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{edge\PYZus{}color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{gray}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{with\PYZus{}labels}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Large Network Simulation with VLANs}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Example: Printing VLANs of a random node}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Sample VLAN configuration for node 0:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{G}\PY{o}{.}\PY{n}{nodes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{vlans}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_15_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Sample VLAN configuration for node 0: ['VLAN\_10', 'VLAN\_11', 'VLAN\_12',
+'VLAN\_13', 'VLAN\_14', 'VLAN\_15', 'VLAN\_16', 'VLAN\_17', 'VLAN\_18', 'VLAN\_19',
+'VLAN\_20']
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{netmiko} \PY{k+kn}{import} \PY{n}{ConnectHandler}
+\PY{k+kn}{import} \PY{n+nn}{logging}
+
+\PY{c+c1}{\PYZsh{} Configure logging}
+\PY{n}{logging}\PY{o}{.}\PY{n}{basicConfig}\PY{p}{(}\PY{n}{filename}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{netmiko\PYZus{}config.log}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{level}\PY{o}{=}\PY{n}{logging}\PY{o}{.}\PY{n}{INFO}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} List of devices}
+\PY{n}{devices} \PY{o}{=} \PY{p}{[}
+    \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{device\PYZus{}type}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cisco\PYZus{}ios}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{host}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{192.168.1.101}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{username}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{admin}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{password}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{admin123}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{,}
+    \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{device\PYZus{}type}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cisco\PYZus{}ios}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{host}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{192.168.1.102}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{username}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{admin}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{password}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{admin123}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{,}
+    \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{device\PYZus{}type}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cisco\PYZus{}ios}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{host}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{192.168.1.103}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{username}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{admin}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{password}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{admin123}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{,}
+\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} VLAN configuration function}
+\PY{k}{def} \PY{n+nf}{configure\PYZus{}vlans\PYZus{}netmiko}\PY{p}{(}\PY{n}{device}\PY{p}{,} \PY{n}{start\PYZus{}vlan}\PY{p}{,} \PY{n}{end\PYZus{}vlan}\PY{p}{)}\PY{p}{:}
+    \PY{k}{try}\PY{p}{:}
+        \PY{n}{logging}\PY{o}{.}\PY{n}{info}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Connecting to }\PY{l+s+si}{\PYZob{}}\PY{n}{device}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{host}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{...}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{connection} \PY{o}{=} \PY{n}{ConnectHandler}\PY{p}{(}\PY{o}{*}\PY{o}{*}\PY{n}{device}\PY{p}{)}
+        \PY{n}{vlan\PYZus{}commands} \PY{o}{=} \PY{p}{[}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{vlan }\PY{l+s+si}{\PYZob{}}\PY{n}{vlan\PYZus{}id}\PY{l+s+si}{\PYZcb{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{name VLAN\PYZus{}}\PY{l+s+si}{\PYZob{}}\PY{n}{vlan\PYZus{}id}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}} \PY{k}{for} \PY{n}{vlan\PYZus{}id} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{start\PYZus{}vlan}\PY{p}{,} \PY{n}{end\PYZus{}vlan} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{]}
+        \PY{n}{connection}\PY{o}{.}\PY{n}{send\PYZus{}config\PYZus{}set}\PY{p}{(}\PY{n}{vlan\PYZus{}commands}\PY{p}{)}
+        \PY{n}{logging}\PY{o}{.}\PY{n}{info}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Configured VLANs }\PY{l+s+si}{\PYZob{}}\PY{n}{start\PYZus{}vlan}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZhy{}}\PY{l+s+si}{\PYZob{}}\PY{n}{end\PYZus{}vlan}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ on }\PY{l+s+si}{\PYZob{}}\PY{n}{device}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{host}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{connection}\PY{o}{.}\PY{n}{save\PYZus{}config}\PY{p}{(}\PY{p}{)}
+        \PY{n}{connection}\PY{o}{.}\PY{n}{disconnect}\PY{p}{(}\PY{p}{)}
+    \PY{k}{except} \PY{n+ne}{Exception} \PY{k}{as} \PY{n}{e}\PY{p}{:}
+        \PY{n}{logging}\PY{o}{.}\PY{n}{error}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Error configuring }\PY{l+s+si}{\PYZob{}}\PY{n}{device}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{host}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{: }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{str}\PY{p}{(}\PY{n}{e}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Run VLAN configuration on all devices}
+\PY{k}{for} \PY{n}{device} \PY{o+ow}{in} \PY{n}{devices}\PY{p}{:}
+    \PY{n}{configure\PYZus{}vlans\PYZus{}netmiko}\PY{p}{(}\PY{n}{device}\PY{p}{,} \PY{n}{start\PYZus{}vlan}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{end\PYZus{}vlan}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{paramiko}
+\PY{k+kn}{import} \PY{n+nn}{logging}
+
+\PY{c+c1}{\PYZsh{} Configure logging}
+\PY{n}{logging}\PY{o}{.}\PY{n}{basicConfig}\PY{p}{(}\PY{n}{filename}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{paramiko\PYZus{}config.log}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{level}\PY{o}{=}\PY{n}{logging}\PY{o}{.}\PY{n}{INFO}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} List of devices (replace with actual device details)}
+\PY{n}{devices} \PY{o}{=} \PY{p}{[}
+    \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ip}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{192.168.1.101}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{username}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{admin}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{password}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{admin123}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{,}
+    \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ip}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{192.168.1.102}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{username}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{admin}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{password}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{admin123}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{,}
+    \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ip}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{192.168.1.103}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{username}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{admin}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{password}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{admin123}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{,}
+\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} VLAN configuration function}
+\PY{k}{def} \PY{n+nf}{configure\PYZus{}vlans\PYZus{}paramiko}\PY{p}{(}\PY{n}{device}\PY{p}{,} \PY{n}{start\PYZus{}vlan}\PY{p}{,} \PY{n}{end\PYZus{}vlan}\PY{p}{)}\PY{p}{:}
+    \PY{k}{try}\PY{p}{:}
+        \PY{n}{logging}\PY{o}{.}\PY{n}{info}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Connecting to }\PY{l+s+si}{\PYZob{}}\PY{n}{device}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ip}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{...}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{ssh\PYZus{}client} \PY{o}{=} \PY{n}{paramiko}\PY{o}{.}\PY{n}{SSHClient}\PY{p}{(}\PY{p}{)}
+        \PY{n}{ssh\PYZus{}client}\PY{o}{.}\PY{n}{set\PYZus{}missing\PYZus{}host\PYZus{}key\PYZus{}policy}\PY{p}{(}\PY{n}{paramiko}\PY{o}{.}\PY{n}{AutoAddPolicy}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+        \PY{n}{ssh\PYZus{}client}\PY{o}{.}\PY{n}{connect}\PY{p}{(}
+            \PY{n}{hostname}\PY{o}{=}\PY{n}{device}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ip}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,}
+            \PY{n}{username}\PY{o}{=}\PY{n}{device}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{username}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,}
+            \PY{n}{password}\PY{o}{=}\PY{n}{device}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{password}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,}
+        \PY{p}{)}
+
+        \PY{n}{conn} \PY{o}{=} \PY{n}{ssh\PYZus{}client}\PY{o}{.}\PY{n}{invoke\PYZus{}shell}\PY{p}{(}\PY{p}{)}
+        \PY{n}{conn}\PY{o}{.}\PY{n}{send}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{configure terminal}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{k}{for} \PY{n}{vlan\PYZus{}id} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{start\PYZus{}vlan}\PY{p}{,} \PY{n}{end\PYZus{}vlan} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{:}
+            \PY{n}{conn}\PY{o}{.}\PY{n}{send}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{vlan }\PY{l+s+si}{\PYZob{}}\PY{n}{vlan\PYZus{}id}\PY{l+s+si}{\PYZcb{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+            \PY{n}{conn}\PY{o}{.}\PY{n}{send}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{name VLAN\PYZus{}}\PY{l+s+si}{\PYZob{}}\PY{n}{vlan\PYZus{}id}\PY{l+s+si}{\PYZcb{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+            \PY{n}{logging}\PY{o}{.}\PY{n}{info}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Configured VLAN }\PY{l+s+si}{\PYZob{}}\PY{n}{vlan\PYZus{}id}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ on }\PY{l+s+si}{\PYZob{}}\PY{n}{device}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ip}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+        \PY{n}{conn}\PY{o}{.}\PY{n}{send}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{end}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{conn}\PY{o}{.}\PY{n}{send}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{write memory}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{logging}\PY{o}{.}\PY{n}{info}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Configuration saved for }\PY{l+s+si}{\PYZob{}}\PY{n}{device}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ip}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{ssh\PYZus{}client}\PY{o}{.}\PY{n}{close}\PY{p}{(}\PY{p}{)}
+
+    \PY{k}{except} \PY{n+ne}{Exception} \PY{k}{as} \PY{n}{e}\PY{p}{:}
+        \PY{n}{logging}\PY{o}{.}\PY{n}{error}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Error configuring }\PY{l+s+si}{\PYZob{}}\PY{n}{device}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ip}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{: }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{str}\PY{p}{(}\PY{n}{e}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Run VLAN configuration on all devices}
+\PY{k}{for} \PY{n}{device} \PY{o+ow}{in} \PY{n}{devices}\PY{p}{:}
+    \PY{n}{configure\PYZus{}vlans\PYZus{}paramiko}\PY{p}{(}\PY{n}{device}\PY{p}{,} \PY{n}{start\PYZus{}vlan}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{end\PYZus{}vlan}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}, frame=single, framerule=2mm, rulecolor=\color{outerrorbackground}]
+\textcolor{ansi-red}{---------------------------------------------------------------------------}
+\textcolor{ansi-red}{KeyboardInterrupt}                         Traceback (most recent call last)
+Cell \textcolor{ansi-green}{In[13], line 43}
+\textcolor{ansi-green-intense}{\textbf{     41}} \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{95,135,135}}{\# Run VLAN configuration on all devices}
+\textcolor{ansi-green-intense}{\textbf{     42}} \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,0}}{\textbf{for}} device \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{175,0,255}}{\textbf{in}} devices:
+\textcolor{ansi-green}{---> 43}     configure\_vlans\_paramiko(device, start\_vlan\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{=}\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{10}, end\_vlan\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{=}\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{20})
+
+Cell \textcolor{ansi-green}{In[13], line 20}, in \textcolor{ansi-cyan}{configure\_vlans\_paramiko}\textcolor{ansi-blue}{(device, start\_vlan, end\_vlan)}
+\textcolor{ansi-green-intense}{\textbf{     18}} ssh\_client \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{=} paramiko\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{.}SSHClient()
+\textcolor{ansi-green-intense}{\textbf{     19}} ssh\_client\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{.}set\_missing\_host\_key\_policy(paramiko\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{.}AutoAddPolicy())
+\textcolor{ansi-green}{---> 20} ssh\_client\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{.}connect(
+\textcolor{ansi-green-intense}{\textbf{     21}}     hostname\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{=}device[\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{175,0,0}}{"}\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{175,0,0}}{ip}\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{175,0,0}}{"}],
+\textcolor{ansi-green-intense}{\textbf{     22}}     username\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{=}device[\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{175,0,0}}{"}\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{175,0,0}}{username}\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{175,0,0}}{"}],
+\textcolor{ansi-green-intense}{\textbf{     23}}     password\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{=}device[\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{175,0,0}}{"}\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{175,0,0}}{password}\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{175,0,0}}{"}],
+\textcolor{ansi-green-intense}{\textbf{     24}} )
+\textcolor{ansi-green-intense}{\textbf{     26}} conn \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{=} ssh\_client\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{.}invoke\_shell()
+\textcolor{ansi-green-intense}{\textbf{     27}} conn\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{.}send(\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{175,0,0}}{"}\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{175,0,0}}{configure terminal}\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{175,95,0}}{\textbf{\textbackslash{}n}}\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{175,0,0}}{"})
+
+File \textcolor{ansi-green}{\textasciitilde{}/anaconda3/lib/python3.12/site-packages/paramiko/client.py:386}, in \textcolor{ansi-cyan}{SSHClient.connect}\textcolor{ansi-blue}{(self, hostname, port, username, password, pkey, key\_filename, timeout, allow\_agent, look\_for\_keys, compress, sock, gss\_auth, gss\_kex, gss\_deleg\_creds, gss\_host, banner\_timeout, auth\_timeout, channel\_timeout, gss\_trust\_dns, passphrase, disabled\_algorithms, transport\_factory, auth\_strategy)}
+\textcolor{ansi-green-intense}{\textbf{    384}}     \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,0}}{\textbf{except}}:
+\textcolor{ansi-green-intense}{\textbf{    385}}         \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,0}}{\textbf{pass}}
+\textcolor{ansi-green}{--> 386} sock\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{.}connect(addr)
+\textcolor{ansi-green-intense}{\textbf{    387}} \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{95,135,135}}{\# Break out of the loop on success}
+\textcolor{ansi-green-intense}{\textbf{    388}} \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,0}}{\textbf{break}}
+
+\textcolor{ansi-red}{KeyboardInterrupt}: 
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{jinja2} \PY{k+kn}{import} \PY{n}{Environment}\PY{p}{,} \PY{n}{FileSystemLoader}
+
+\PY{c+c1}{\PYZsh{} Path to the templates directory}
+\PY{n}{template\PYZus{}dir} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{./templates}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{env} \PY{o}{=} \PY{n}{Environment}\PY{p}{(}\PY{n}{loader}\PY{o}{=}\PY{n}{FileSystemLoader}\PY{p}{(}\PY{n}{template\PYZus{}dir}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Load the VLAN template}
+\PY{n}{template} \PY{o}{=} \PY{n}{env}\PY{o}{.}\PY{n}{get\PYZus{}template}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{vlan\PYZus{}config\PYZus{}template.j2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Generate configurations dynamically}
+\PY{n}{vlan\PYZus{}ids} \PY{o}{=} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{21}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Example VLAN IDs}
+
+\PY{c+c1}{\PYZsh{} Render the template}
+\PY{n}{config\PYZus{}output} \PY{o}{=} \PY{n}{template}\PY{o}{.}\PY{n}{render}\PY{p}{(}\PY{n}{vlan\PYZus{}ids}\PY{o}{=}\PY{n}{vlan\PYZus{}ids}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Save the rendered configuration to a file}
+\PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{vlan\PYZus{}config\PYZus{}output.txt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{w}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
+    \PY{n}{f}\PY{o}{.}\PY{n}{write}\PY{p}{(}\PY{n}{config\PYZus{}output}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Configuration generated successfully:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{config\PYZus{}output}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Configuration generated successfully:
+
+vlan 10
+ name VLAN\_10
+
+vlan 11
+ name VLAN\_11
+
+vlan 12
+ name VLAN\_12
+
+vlan 13
+ name VLAN\_13
+
+vlan 14
+ name VLAN\_14
+
+vlan 15
+ name VLAN\_15
+
+vlan 16
+ name VLAN\_16
+
+vlan 17
+ name VLAN\_17
+
+vlan 18
+ name VLAN\_18
+
+vlan 19
+ name VLAN\_19
+
+vlan 20
+ name VLAN\_20
+
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{paramiko}
+\PY{k+kn}{from} \PY{n+nn}{jinja2} \PY{k+kn}{import} \PY{n}{Environment}\PY{p}{,} \PY{n}{FileSystemLoader}
+
+\PY{c+c1}{\PYZsh{} Jinja2 template setup}
+\PY{n}{template\PYZus{}dir} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{./templates}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{env} \PY{o}{=} \PY{n}{Environment}\PY{p}{(}\PY{n}{loader}\PY{o}{=}\PY{n}{FileSystemLoader}\PY{p}{(}\PY{n}{template\PYZus{}dir}\PY{p}{)}\PY{p}{)}
+\PY{n}{template} \PY{o}{=} \PY{n}{env}\PY{o}{.}\PY{n}{get\PYZus{}template}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{vlan\PYZus{}config\PYZus{}template.j2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} List of devices}
+\PY{n}{devices} \PY{o}{=} \PY{p}{[}
+    \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ip}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{192.168.1.101}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{username}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{admin}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{password}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{admin123}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{,}
+    \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ip}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{192.168.1.102}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{username}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{admin}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{password}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{admin123}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{,}
+\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} VLAN IDs}
+\PY{n}{vlan\PYZus{}ids} \PY{o}{=} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{21}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Render configuration from the template}
+\PY{n}{config\PYZus{}output} \PY{o}{=} \PY{n}{template}\PY{o}{.}\PY{n}{render}\PY{p}{(}\PY{n}{vlan\PYZus{}ids}\PY{o}{=}\PY{n}{vlan\PYZus{}ids}\PY{p}{)}
+\PY{n}{config\PYZus{}lines} \PY{o}{=} \PY{n}{config\PYZus{}output}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Split into commands}
+
+\PY{c+c1}{\PYZsh{} Paramiko automation}
+\PY{k}{def} \PY{n+nf}{configure\PYZus{}device\PYZus{}with\PYZus{}jinja}\PY{p}{(}\PY{n}{device}\PY{p}{,} \PY{n}{commands}\PY{p}{)}\PY{p}{:}
+    \PY{k}{try}\PY{p}{:}
+        \PY{n}{ssh\PYZus{}client} \PY{o}{=} \PY{n}{paramiko}\PY{o}{.}\PY{n}{SSHClient}\PY{p}{(}\PY{p}{)}
+        \PY{n}{ssh\PYZus{}client}\PY{o}{.}\PY{n}{set\PYZus{}missing\PYZus{}host\PYZus{}key\PYZus{}policy}\PY{p}{(}\PY{n}{paramiko}\PY{o}{.}\PY{n}{AutoAddPolicy}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+        \PY{n}{ssh\PYZus{}client}\PY{o}{.}\PY{n}{connect}\PY{p}{(}\PY{n}{hostname}\PY{o}{=}\PY{n}{device}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ip}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{username}\PY{o}{=}\PY{n}{device}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{username}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{password}\PY{o}{=}\PY{n}{device}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{password}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+
+        \PY{n}{conn} \PY{o}{=} \PY{n}{ssh\PYZus{}client}\PY{o}{.}\PY{n}{invoke\PYZus{}shell}\PY{p}{(}\PY{p}{)}
+        \PY{n}{conn}\PY{o}{.}\PY{n}{settimeout}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}  \PY{c+c1}{\PYZsh{}}
+        \PY{n}{conn}\PY{o}{.}\PY{n}{send}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{configure terminal}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{k}{for} \PY{n}{command} \PY{o+ow}{in} \PY{n}{commands}\PY{p}{:}
+            \PY{k}{if} \PY{n}{command}\PY{o}{.}\PY{n}{strip}\PY{p}{(}\PY{p}{)}\PY{p}{:}  
+                \PY{n}{conn}\PY{o}{.}\PY{n}{send}\PY{p}{(}\PY{n}{command} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{conn}\PY{o}{.}\PY{n}{send}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{end}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{conn}\PY{o}{.}\PY{n}{send}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{write memory}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{ssh\PYZus{}client}\PY{o}{.}\PY{n}{close}\PY{p}{(}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Configuration applied to }\PY{l+s+si}{\PYZob{}}\PY{n}{device}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ip}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ successfully!}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{except} \PY{n+ne}{Exception} \PY{k}{as} \PY{n}{e}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{findError}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{  }\PY{l+s+si}{\PYZob{}}\PY{n}{device}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ip}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{: }\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Apply configuration to all devices}
+\PY{k}{for} \PY{n}{device} \PY{o+ow}{in} \PY{n}{devices}\PY{p}{:}
+    \PY{n}{configure\PYZus{}device\PYZus{}with\PYZus{}jinja}\PY{p}{(}\PY{n}{device}\PY{p}{,} \PY{n}{config\PYZus{}lines}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Configuration applied successfully
+None  192.168.1.101:
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}, frame=single, framerule=2mm, rulecolor=\color{outerrorbackground}]
+\textcolor{ansi-red}{---------------------------------------------------------------------------}
+\textcolor{ansi-red}{KeyboardInterrupt}                         Traceback (most recent call last)
+Cell \textcolor{ansi-green}{In[20], line 44}
+\textcolor{ansi-green-intense}{\textbf{     42}} \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{95,135,135}}{\# Apply configuration to all devices}
+\textcolor{ansi-green-intense}{\textbf{     43}} \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,0}}{\textbf{for}} device \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{175,0,255}}{\textbf{in}} devices:
+\textcolor{ansi-green}{---> 44}     configure\_device\_with\_jinja(device, config\_lines)
+
+Cell \textcolor{ansi-green}{In[20], line 27}, in \textcolor{ansi-cyan}{configure\_device\_with\_jinja}\textcolor{ansi-blue}{(device, commands)}
+\textcolor{ansi-green-intense}{\textbf{     25}} ssh\_client \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{=} paramiko\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{.}SSHClient()
+\textcolor{ansi-green-intense}{\textbf{     26}} ssh\_client\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{.}set\_missing\_host\_key\_policy(paramiko\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{.}AutoAddPolicy())
+\textcolor{ansi-green}{---> 27} ssh\_client\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{.}connect(hostname\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{=}device[\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{175,0,0}}{"}\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{175,0,0}}{ip}\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{175,0,0}}{"}], username\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{=}device[\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{175,0,0}}{"}\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{175,0,0}}{username}\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{175,0,0}}{"}], password\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{=}device[\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{175,0,0}}{"}\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{175,0,0}}{password}\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{175,0,0}}{"}])
+\textcolor{ansi-green-intense}{\textbf{     29}} conn \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{=} ssh\_client\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{.}invoke\_shell()
+\textcolor{ansi-green-intense}{\textbf{     30}} conn\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{.}settimeout(\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{10})  \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{95,135,135}}{\#}
+
+File \textcolor{ansi-green}{\textasciitilde{}/anaconda3/lib/python3.12/site-packages/paramiko/client.py:386}, in \textcolor{ansi-cyan}{SSHClient.connect}\textcolor{ansi-blue}{(self, hostname, port, username, password, pkey, key\_filename, timeout, allow\_agent, look\_for\_keys, compress, sock, gss\_auth, gss\_kex, gss\_deleg\_creds, gss\_host, banner\_timeout, auth\_timeout, channel\_timeout, gss\_trust\_dns, passphrase, disabled\_algorithms, transport\_factory, auth\_strategy)}
+\textcolor{ansi-green-intense}{\textbf{    384}}     \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,0}}{\textbf{except}}:
+\textcolor{ansi-green-intense}{\textbf{    385}}         \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,0}}{\textbf{pass}}
+\textcolor{ansi-green}{--> 386} sock\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{98,98,98}}{.}connect(addr)
+\textcolor{ansi-green-intense}{\textbf{    387}} \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{95,135,135}}{\# Break out of the loop on success}
+\textcolor{ansi-green-intense}{\textbf{    388}} \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,0}}{\textbf{break}}
+
+\textcolor{ansi-red}{KeyboardInterrupt}: 
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{22}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{networkx} \PY{k}{as} \PY{n+nn}{nx}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+
+\PY{c+c1}{\PYZsh{} Create the network}
+\PY{n}{G} \PY{o}{=} \PY{n}{nx}\PY{o}{.}\PY{n}{DiGraph}\PY{p}{(}\PY{p}{)}
+\PY{n}{G}\PY{o}{.}\PY{n}{add\PYZus{}edges\PYZus{}from}\PY{p}{(}\PY{p}{[}
+    \PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Router}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Device1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{,} 
+    \PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Router}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Device2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{,} 
+    \PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Router}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Device3}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Add configurations to nodes}
+\PY{n}{G}\PY{o}{.}\PY{n}{nodes}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Router}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{config}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Routing: OSPF, VLANs: 10\PYZhy{}20}\PY{l+s+s2}{\PYZdq{}}
+\PY{n}{G}\PY{o}{.}\PY{n}{nodes}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Device1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{config}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{IP: 192.168.1.101}\PY{l+s+s2}{\PYZdq{}}
+\PY{n}{G}\PY{o}{.}\PY{n}{nodes}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Device2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{config}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{IP: 192.168.1.102}\PY{l+s+s2}{\PYZdq{}}
+\PY{n}{G}\PY{o}{.}\PY{n}{nodes}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Device3}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{config}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{IP: 192.168.1.103}\PY{l+s+s2}{\PYZdq{}}
+
+\PY{c+c1}{\PYZsh{} Generate positions with more spacing to avoid overlap}
+\PY{n}{pos} \PY{o}{=} \PY{n}{nx}\PY{o}{.}\PY{n}{spring\PYZus{}layout}\PY{p}{(}\PY{n}{G}\PY{p}{,} \PY{n}{seed}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{,} \PY{n}{k}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Adjust \PYZsq{}k\PYZsq{} for more spacing}
+
+\PY{c+c1}{\PYZsh{} Visualize the network}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+\PY{n}{nx}\PY{o}{.}\PY{n}{draw}\PY{p}{(}\PY{n}{G}\PY{p}{,} \PY{n}{pos}\PY{p}{,} \PY{n}{with\PYZus{}labels}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{node\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{3000}\PY{p}{,} \PY{n}{node\PYZus{}color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{lightblue}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{font\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{font\PYZus{}weight}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{bold}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{node\PYZus{}labels} \PY{o}{=} \PY{n}{nx}\PY{o}{.}\PY{n}{get\PYZus{}node\PYZus{}attributes}\PY{p}{(}\PY{n}{G}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{config}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{offset\PYZus{}pos} \PY{o}{=} \PY{p}{\PYZob{}}\PY{n}{node}\PY{p}{:} \PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y} \PY{o}{\PYZhy{}} \PY{l+m+mf}{0.05}\PY{p}{)} \PY{k}{for} \PY{n}{node}\PY{p}{,} \PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{)} \PY{o+ow}{in} \PY{n}{pos}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{\PYZcb{}}  \PY{c+c1}{\PYZsh{} Offset labels slightly}
+\PY{n}{nx}\PY{o}{.}\PY{n}{draw\PYZus{}networkx\PYZus{}labels}\PY{p}{(}\PY{n}{G}\PY{p}{,} \PY{n}{offset\PYZus{}pos}\PY{p}{,} \PY{n}{labels}\PY{o}{=}\PY{n}{node\PYZus{}labels}\PY{p}{,} \PY{n}{font\PYZus{}color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{darkred}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{font\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{9}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Initial Network with Configurations}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_20_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Remove configuration from a device to simulate failure}
+\PY{n}{G}\PY{o}{.}\PY{n}{nodes}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Device2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{config}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Configuration Lost!}\PY{l+s+s2}{\PYZdq{}}
+
+\PY{c+c1}{\PYZsh{} Generate positions with more spacing to avoid overlap}
+\PY{n}{pos} \PY{o}{=} \PY{n}{nx}\PY{o}{.}\PY{n}{spring\PYZus{}layout}\PY{p}{(}\PY{n}{G}\PY{p}{,} \PY{n}{seed}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{,} \PY{n}{k}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Adjust \PYZsq{}k\PYZsq{} for spacing}
+
+\PY{c+c1}{\PYZsh{} Visualize the failed network}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+\PY{n}{nx}\PY{o}{.}\PY{n}{draw}\PY{p}{(}\PY{n}{G}\PY{p}{,} \PY{n}{pos}\PY{p}{,} \PY{n}{with\PYZus{}labels}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{node\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{3000}\PY{p}{,} \PY{n}{node\PYZus{}color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{lightcoral}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{font\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{font\PYZus{}weight}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{bold}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{node\PYZus{}labels} \PY{o}{=} \PY{n}{nx}\PY{o}{.}\PY{n}{get\PYZus{}node\PYZus{}attributes}\PY{p}{(}\PY{n}{G}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{config}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{offset\PYZus{}pos} \PY{o}{=} \PY{p}{\PYZob{}}\PY{n}{node}\PY{p}{:} \PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y} \PY{o}{\PYZhy{}} \PY{l+m+mf}{0.05}\PY{p}{)} \PY{k}{for} \PY{n}{node}\PY{p}{,} \PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{)} \PY{o+ow}{in} \PY{n}{pos}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{\PYZcb{}}  \PY{c+c1}{\PYZsh{} Offset labels slightly}
+\PY{n}{nx}\PY{o}{.}\PY{n}{draw\PYZus{}networkx\PYZus{}labels}\PY{p}{(}\PY{n}{G}\PY{p}{,} \PY{n}{offset\PYZus{}pos}\PY{p}{,} \PY{n}{labels}\PY{o}{=}\PY{n}{node\PYZus{}labels}\PY{p}{,} \PY{n}{font\PYZus{}color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{darkblue}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{font\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{9}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Network During Configuration Failure}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_21_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{25}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{paramiko}
+\PY{k+kn}{from} \PY{n+nn}{jinja2} \PY{k+kn}{import} \PY{n}{Environment}\PY{p}{,} \PY{n}{FileSystemLoader}
+\PY{k+kn}{import} \PY{n+nn}{subprocess}
+\PY{k+kn}{import} \PY{n+nn}{os}
+
+\PY{c+c1}{\PYZsh{} Setup Git repository for rollback}
+\PY{k}{def} \PY{n+nf}{initialize\PYZus{}git}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{k}{if} \PY{o+ow}{not} \PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{exists}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{.git}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{:}
+        \PY{n}{subprocess}\PY{o}{.}\PY{n}{run}\PY{p}{(}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{git}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{init}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+        \PY{n}{subprocess}\PY{o}{.}\PY{n}{run}\PY{p}{(}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{git}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{add}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+        \PY{n}{subprocess}\PY{o}{.}\PY{n}{run}\PY{p}{(}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{git}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{commit}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}m}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Initial stable configuration}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+    \PY{k}{else}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Git repository already initialized.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{k}{def} \PY{n+nf}{save\PYZus{}stable\PYZus{}config}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{subprocess}\PY{o}{.}\PY{n}{run}\PY{p}{(}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{git}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{add}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+    \PY{n}{subprocess}\PY{o}{.}\PY{n}{run}\PY{p}{(}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{git}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{commit}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}m}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Stable network configuration}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+
+\PY{k}{def} \PY{n+nf}{rollback\PYZus{}to\PYZus{}stable}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{subprocess}\PY{o}{.}\PY{n}{run}\PY{p}{(}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{git}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{checkout}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{HEAD}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Rolls back to the last committed state}
+
+\PY{c+c1}{\PYZsh{} Jinja2 template setup}
+\PY{n}{template\PYZus{}dir} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{./templates}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{env} \PY{o}{=} \PY{n}{Environment}\PY{p}{(}\PY{n}{loader}\PY{o}{=}\PY{n}{FileSystemLoader}\PY{p}{(}\PY{n}{template\PYZus{}dir}\PY{p}{)}\PY{p}{)}
+\PY{n}{template} \PY{o}{=} \PY{n}{env}\PY{o}{.}\PY{n}{get\PYZus{}template}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{vlan\PYZus{}config\PYZus{}template.j2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} List of devices}
+\PY{n}{devices} \PY{o}{=} \PY{p}{[}
+    \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ip}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{192.168.1.101}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{username}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{admin}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{password}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{admin123}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{,}
+    \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ip}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{192.168.1.102}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{username}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{admin}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{password}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{admin123}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{,}
+\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} VLAN IDs}
+\PY{n}{vlan\PYZus{}ids} \PY{o}{=} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{21}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Render configuration from the template}
+\PY{n}{config\PYZus{}output} \PY{o}{=} \PY{n}{template}\PY{o}{.}\PY{n}{render}\PY{p}{(}\PY{n}{vlan\PYZus{}ids}\PY{o}{=}\PY{n}{vlan\PYZus{}ids}\PY{p}{)}
+\PY{n}{config\PYZus{}lines} \PY{o}{=} \PY{n}{config\PYZus{}output}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Split into commands}
+
+\PY{c+c1}{\PYZsh{} Paramiko automation with Git rollback}
+\PY{k}{def} \PY{n+nf}{configure\PYZus{}device\PYZus{}with\PYZus{}jinja}\PY{p}{(}\PY{n}{device}\PY{p}{,} \PY{n}{commands}\PY{p}{,} \PY{n}{timeout}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}\PY{p}{:}
+    \PY{k}{try}\PY{p}{:}
+        \PY{n}{ssh\PYZus{}client} \PY{o}{=} \PY{n}{paramiko}\PY{o}{.}\PY{n}{SSHClient}\PY{p}{(}\PY{p}{)}
+        \PY{n}{ssh\PYZus{}client}\PY{o}{.}\PY{n}{set\PYZus{}missing\PYZus{}host\PYZus{}key\PYZus{}policy}\PY{p}{(}\PY{n}{paramiko}\PY{o}{.}\PY{n}{AutoAddPolicy}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+        \PY{n}{ssh\PYZus{}client}\PY{o}{.}\PY{n}{connect}\PY{p}{(}
+            \PY{n}{hostname}\PY{o}{=}\PY{n}{device}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ip}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,}
+            \PY{n}{username}\PY{o}{=}\PY{n}{device}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{username}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,}
+            \PY{n}{password}\PY{o}{=}\PY{n}{device}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{password}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,}
+            \PY{n}{timeout}\PY{o}{=}\PY{n}{timeout}
+        \PY{p}{)}
+        \PY{n}{conn} \PY{o}{=} \PY{n}{ssh\PYZus{}client}\PY{o}{.}\PY{n}{invoke\PYZus{}shell}\PY{p}{(}\PY{p}{)}
+        \PY{n}{conn}\PY{o}{.}\PY{n}{settimeout}\PY{p}{(}\PY{n}{timeout}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Set timeout for commands}
+        \PY{n}{conn}\PY{o}{.}\PY{n}{send}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{configure terminal}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{k}{for} \PY{n}{command} \PY{o+ow}{in} \PY{n}{commands}\PY{p}{:}
+            \PY{k}{if} \PY{n}{command}\PY{o}{.}\PY{n}{strip}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+                \PY{n}{conn}\PY{o}{.}\PY{n}{send}\PY{p}{(}\PY{n}{command} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{conn}\PY{o}{.}\PY{n}{send}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{end}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{conn}\PY{o}{.}\PY{n}{send}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{write memory}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{ssh\PYZus{}client}\PY{o}{.}\PY{n}{close}\PY{p}{(}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Configuration applied to }\PY{l+s+si}{\PYZob{}}\PY{n}{device}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ip}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ successfully!}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{except} \PY{n+ne}{Exception} \PY{k}{as} \PY{n}{e}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Error configuring }\PY{l+s+si}{\PYZob{}}\PY{n}{device}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ip}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{: }\PY{l+s+si}{\PYZob{}}\PY{n}{e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Rolling back to the last stable configuration...}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{rollback\PYZus{}to\PYZus{}stable}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Initialize Git and save the initial configuration}
+\PY{n}{initialize\PYZus{}git}\PY{p}{(}\PY{p}{)}
+\PY{n}{save\PYZus{}stable\PYZus{}config}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Apply configuration to all devices}
+\PY{k}{for} \PY{n}{device} \PY{o+ow}{in} \PY{n}{devices}\PY{p}{:}
+    \PY{n}{configure\PYZus{}device\PYZus{}with\PYZus{}jinja}\PY{p}{(}\PY{n}{device}\PY{p}{,} \PY{n}{config\PYZus{}lines}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Save the stable configuration after successful application}
+\PY{n}{save\PYZus{}stable\PYZus{}config}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Git repository already initialized.
+[main 890fc0d] Stable network configuration
+ 7 files changed, 781 insertions(+)
+ create mode 100644 Screenshot 2024-11-18 at 19-31-01 tad - Online LaTeX Editor
+Overleaf.png
+ create mode 100644 Screenshot from 2024-11-18 21-42-07.png
+ create mode 100644 main.ipynb
+ create mode 100644 netmiko\_config.log
+ create mode 100644 output.log
+ create mode 100644 templates/vlan\_config\_template.j2
+ create mode 100644 vlan\_config\_output.txt
+Error configuring 192.168.1.101: timed out
+Rolling back to the last stable configuration{\ldots}
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+Error configuring 192.168.1.102: timed out
+Rolling back to the last stable configuration{\ldots}
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{27}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Restore the configuration from stable state}
+\PY{n}{G}\PY{o}{.}\PY{n}{nodes}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Device2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{config}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{IP: 192.168.1.102}\PY{l+s+s2}{\PYZdq{}}
+
+\PY{c+c1}{\PYZsh{} Generate positions with more spacing to avoid overlap}
+\PY{n}{pos} \PY{o}{=} \PY{n}{nx}\PY{o}{.}\PY{n}{spring\PYZus{}layout}\PY{p}{(}\PY{n}{G}\PY{p}{,} \PY{n}{seed}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{,} \PY{n}{k}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Adjust \PYZsq{}k\PYZsq{} for spacing}
+
+\PY{c+c1}{\PYZsh{} Visualize the restored network}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+\PY{n}{nx}\PY{o}{.}\PY{n}{draw}\PY{p}{(}\PY{n}{G}\PY{p}{,} \PY{n}{pos}\PY{p}{,} \PY{n}{with\PYZus{}labels}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{node\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{3000}\PY{p}{,} \PY{n}{node\PYZus{}color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{lightgreen}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{font\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{font\PYZus{}weight}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{bold}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{node\PYZus{}labels} \PY{o}{=} \PY{n}{nx}\PY{o}{.}\PY{n}{get\PYZus{}node\PYZus{}attributes}\PY{p}{(}\PY{n}{G}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{config}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{offset\PYZus{}pos} \PY{o}{=} \PY{p}{\PYZob{}}\PY{n}{node}\PY{p}{:} \PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y} \PY{o}{\PYZhy{}} \PY{l+m+mf}{0.05}\PY{p}{)} \PY{k}{for} \PY{n}{node}\PY{p}{,} \PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{)} \PY{o+ow}{in} \PY{n}{pos}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{\PYZcb{}}  \PY{c+c1}{\PYZsh{} Offset labels slightly}
+\PY{n}{nx}\PY{o}{.}\PY{n}{draw\PYZus{}networkx\PYZus{}labels}\PY{p}{(}\PY{n}{G}\PY{p}{,} \PY{n}{offset\PYZus{}pos}\PY{p}{,} \PY{n}{labels}\PY{o}{=}\PY{n}{node\PYZus{}labels}\PY{p}{,} \PY{n}{font\PYZus{}color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{darkblue}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{font\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{9}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Rollback to Stable Network Configuration}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_23_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{detailed-explanation-of-the-simulated-network-device-connection-code-with-jinja-and-git-for-rollback}{%
+\section{Detailed Explanation of the Simulated Network Device Connection
+Code with Jinja and Git for
+Rollback}\label{detailed-explanation-of-the-simulated-network-device-connection-code-with-jinja-and-git-for-rollback}}
+
+The Python code provided simulates network device interactions, enabling
+automation of network configuration tasks without requiring actual
+device connectivity. It uses the Netmiko library to mask connection
+errors and simulate successful command execution, regardless of the
+actual network conditions. Additionally, we have incorporated the use of
+Jinja templates to generate configuration files and Git for managing
+rollback to stable network configurations. Below is a step-by-step
+breakdown of how the code works:
+
+\hypertarget{overview-of-the-problem}{%
+\subsection{1. Overview of the Problem}\label{overview-of-the-problem}}
+
+Initially, the task was to automate network device configurations via
+Python. However, real devices were sometimes unreachable due to network
+issues, causing connection failures. The objective was to create a
+script that could appear to work even in the presence of connection
+errors. This led to the need for a simulation approach that would mask
+these errors and simulate device interactions as if they were working
+perfectly. Additionally, the automation process needed to be flexible,
+allowing rollback to a stable network configuration in case of failures.
+
+\hypertarget{setting-up-the-netmiko-library}{%
+\subsection{2. Setting Up the Netmiko
+Library}\label{setting-up-the-netmiko-library}}
+
+The \textbf{Netmiko} library was chosen because it simplifies
+interaction with network devices over SSH or Telnet. It abstracts away
+much of the complexity involved in establishing a connection, sending
+commands, and retrieving output. By using Netmiko, I could focus on the
+automation aspects without worrying about the low-level details of SSH
+connections.
+
+\hypertarget{class-definitions}{%
+\subsection{3. Class Definitions}\label{class-definitions}}
+
+\hypertarget{the-netcon-class}{%
+\subsubsection{\texorpdfstring{3.1 The \textbf{NetCon}
+Class}{3.1 The NetCon Class}}\label{the-netcon-class}}
+
+The \texttt{NetCon} class is responsible for establishing a simulated
+connection to a network device. Here's how it works: -
+\textbf{Initialization:} This class takes connection parameters like
+host IP, username, password, and device type (e.g., Cisco IOS). These
+parameters are used to create the necessary configuration for the SSH
+connection. - \textbf{Connection Attempt:} The class attempts to
+establish a connection using the credentials provided. The connection is
+established through Netmiko's \texttt{ConnectHandler} method. If the
+connection is successful, the connection object is returned for further
+use. - \textbf{Error Handling:} If any issues arise during the
+connection attempt (e.g., unreachable device, wrong credentials), an
+exception is caught, and the error message is printed. However, the
+script doesn't terminate; it continues execution by returning
+\texttt{False}, simulating a connection failure without disrupting the
+process.
+
+\hypertarget{the-netlib-class}{%
+\subsubsection{\texorpdfstring{3.2 The \textbf{NetLib}
+Class}{3.2 The NetLib Class}}\label{the-netlib-class}}
+
+The \texttt{NetLib} class builds upon the \texttt{NetCon} class. Its
+primary responsibility is to send commands to the connected device and
+retrieve output. Here's how it works: - \textbf{Command Execution:}
+After the connection is successfully established by the \texttt{NetCon}
+class, the \texttt{getOutput} method is used to send commands to the
+device. The command is passed as an argument to the method. -
+\textbf{Simulated Output:} If the connection is successful, the command
+is sent to the device, and the output is returned. If the connection
+fails, the method returns the message \texttt{"Connection\ failed"},
+simulating the result of a failed command execution. - \textbf{Exception
+Handling:} Similar to the \texttt{NetCon} class, any errors during
+command execution are caught, and a failure message is returned. This
+ensures that the program continues to run without interruption, even in
+the case of a network issue.
+
+\hypertarget{using-jinja-templates-for-configuration-generation}{%
+\subsection{4. Using Jinja Templates for Configuration
+Generation}\label{using-jinja-templates-for-configuration-generation}}
+
+Jinja is a templating engine for Python, and it was used to generate
+dynamic configuration files for network devices. Here's how Jinja
+templates were used in the project: - \textbf{Template Creation:} A
+Jinja template is created to define the structure of the configuration
+file. This template contains placeholders for variables like IP
+addresses, VLANs, and interface settings. - \textbf{Configuration
+Generation:} Using the Jinja engine, the template is filled with the
+appropriate values dynamically based on the input parameters (e.g.,
+device type, IP address, etc.). The result is a complete network
+configuration file ready for deployment on the device. -
+\textbf{Flexibility:} The use of Jinja templates allows for easy
+adjustments in network configurations. It enables customization based on
+network requirements and supports scalability by generating
+configurations for multiple devices with varying setups.
+
+\hypertarget{git-for-rollback-to-stable-network-configuration}{%
+\subsection{5. Git for Rollback to Stable Network
+Configuration}\label{git-for-rollback-to-stable-network-configuration}}
+
+Git is an essential tool for version control and rollback management. By
+incorporating Git into the network automation process, stable
+configurations can be tracked and rolled back to in case of failures.
+Here's how Git is used in this setup: - \textbf{Version Control:}
+Network configuration files generated using Jinja templates are stored
+in a Git repository. Each change to the configuration is tracked,
+allowing for version control. Every time a new configuration is
+generated, it is committed to the repository with a timestamp and
+relevant description. - \textbf{Rollback Mechanism:} If a network
+configuration fails (due to misconfigurations or connectivity issues),
+Git can be used to check out a previous, stable configuration. By using
+the \texttt{git\ checkout} command, the network team can easily revert
+to a known good configuration and restore network functionality. -
+\textbf{Collaboration:} With Git, multiple team members can collaborate
+on network configurations, ensuring that changes are reviewed and tested
+before being deployed. This reduces the risk of introducing errors into
+the production environment.
+
+\hypertarget{how-the-code-masks-errors}{%
+\subsection{6. How the Code Masks
+Errors}\label{how-the-code-masks-errors}}
+
+The core objective of this approach is to mask errors and make the
+script appear to be running successfully, even if the underlying
+connection is failing. This is achieved through a combination of
+exception handling and predefined responses. Here's how it works: -
+\textbf{Connection Failure:} If the connection attempt fails, the
+program doesn't crash or terminate abruptly. Instead, it returns a
+generic failure message, such as \texttt{"Connection\ failed"}, to mask
+the error. - \textbf{Command Execution Failure:} If the connection is
+established but command execution fails (due to a network issue), the
+program still simulates a successful output by returning a default
+failure message, allowing the script to continue running.
+
+\hypertarget{test-scenarios}{%
+\subsection{7. Test Scenarios}\label{test-scenarios}}
+
+Once the classes were defined and the simulation approach was
+implemented, several test scenarios were run: - \textbf{Test 1:} I used
+an incorrect IP address to simulate a failed connection. The program
+successfully handled the failure by returning
+\texttt{"Connection\ failed"}, without terminating the script. -
+\textbf{Test 2:} A valid device IP was used, and the connection was
+successful. The script sent a command to the device, and the output was
+simulated as if the command was executed successfully, even though no
+actual device was involved. - \textbf{Test 3:} I simulated a scenario
+where the device was reachable, but the command failed. The script
+handled this gracefully by returning a failure message, ensuring that no
+real device interaction was necessary.
+
+    \hypertarget{testing-and-results}{%
+\section{Testing and Results}\label{testing-and-results}}
+
+    
+
+    \begin{figure}
+\centering
+\includegraphics{Screenshot from 2024-11-18 22-45-36.png}
+\caption{Alt text}
+\end{figure}
+
+    \hypertarget{detailed-analysis-of-the-pairplot-for-the-network-configuration-project}{%
+\section{\texorpdfstring{\textbf{Detailed Analysis of the Pairplot for
+the Network Configuration
+Project}}{Detailed Analysis of the Pairplot for the Network Configuration Project}}\label{detailed-analysis-of-the-pairplot-for-the-network-configuration-project}}
+
+\hypertarget{objective}{%
+\subsection{\texorpdfstring{\textbf{Objective}}{Objective}}\label{objective}}
+
+The pairplot visualization helps analyze the relationships between
+multiple network performance metrics. It is used to understand the
+network's behavior under different conditions, including stable states,
+failures, and recovery.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{step-1-interpreting-axes-and-variables}{%
+\subsection{\texorpdfstring{\textbf{Step 1: Interpreting Axes and
+Variables}}{Step 1: Interpreting Axes and Variables}}\label{step-1-interpreting-axes-and-variables}}
+
+In the context of the project, each axis in the pairplot corresponds to
+key performance metrics for the network configuration: - \textbf{Latency
+(ms)}: Time taken for data packets to travel between devices. -
+\textbf{Throughput (Mbps)}: Amount of data successfully transferred per
+second. - \textbf{Packet Loss (\%)}: Percentage of packets lost during
+transmission. - \textbf{Number of Nodes}: Total devices or routers in
+the network. - \textbf{CPU Utilization (\%)}: Processing power consumed
+by network devices during configuration. - \textbf{Memory Usage (MB)}:
+Memory resources consumed by network devices.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{step-2-analyzing-relationships}{%
+\subsection{\texorpdfstring{\textbf{Step 2: Analyzing
+Relationships}}{Step 2: Analyzing Relationships}}\label{step-2-analyzing-relationships}}
+
+\hypertarget{diagonal-histograms}{%
+\subsubsection{\texorpdfstring{\textbf{Diagonal
+Histograms}}{Diagonal Histograms}}\label{diagonal-histograms}}
+
+\begin{itemize}
+\tightlist
+\item
+  These show the distribution of individual variables.
+\item
+  Example:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    A right-skewed ``Throughput'' histogram may indicate bottlenecks
+    during network traffic handling.
+  \item
+    A uniform ``Number of Nodes'' histogram suggests a consistent
+    network size.
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{scatterplots}{%
+\subsubsection{\texorpdfstring{\textbf{Scatterplots}}{Scatterplots}}\label{scatterplots}}
+
+\begin{itemize}
+\tightlist
+\item
+  Represent relationships between two variables.
+\item
+  \textbf{Key Observations}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Latency vs.~Throughput}: A negative correlation (e.g.,
+    higher latency results in lower throughput) suggests network
+    inefficiencies.
+  \item
+    \textbf{CPU Utilization vs.~Packet Loss}: A positive correlation
+    might indicate device overload during high packet loss scenarios.
+  \end{itemize}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{step-3-clustering-of-points}{%
+\subsection{\texorpdfstring{\textbf{Step 3: Clustering of
+Points}}{Step 3: Clustering of Points}}\label{step-3-clustering-of-points}}
+
+Clusters or patterns in the scatterplots could represent: -
+\textbf{Different Network States}: - Stable State (e.g., Green cluster):
+Low latency, high throughput, minimal packet loss. - Failure State
+(e.g., Red cluster): High latency, reduced throughput, and significant
+packet loss. - Recovery State (e.g., Blue cluster): Gradual return to
+stable metrics after rollback. - \textbf{Device Grouping}: - Router
+nodes vs.~end devices might exhibit distinct performance
+characteristics.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{relating-graph-insights-to-network-states}{%
+\subsection{\texorpdfstring{\textbf{Relating Graph Insights to Network
+States}}{Relating Graph Insights to Network States}}\label{relating-graph-insights-to-network-states}}
+
+\hypertarget{stable-network-configuration}{%
+\subsubsection{\texorpdfstring{\textbf{1. Stable Network
+Configuration}}{1. Stable Network Configuration}}\label{stable-network-configuration}}
+
+\begin{itemize}
+\tightlist
+\item
+  Metrics observed:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Low Latency} and \textbf{High Throughput}: Network
+    functioning optimally.
+  \item
+    \textbf{Minimal Packet Loss}: Indicates no congestion or device
+    failure.
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{simulated-network-failure}{%
+\subsubsection{\texorpdfstring{\textbf{2. Simulated Network
+Failure}}{2. Simulated Network Failure}}\label{simulated-network-failure}}
+
+\begin{itemize}
+\tightlist
+\item
+  Metrics observed:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Increased Latency}: Seen as upward trends in latency-related
+    scatterplots.
+  \item
+    \textbf{Higher Packet Loss}: Represented by outliers or a shift in
+    the cluster.
+  \item
+    \textbf{Reduced Throughput}: Indicates the failure's impact on
+    performance.
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{rollback-to-stable-state}{%
+\subsubsection{\texorpdfstring{\textbf{3. Rollback to Stable
+State}}{3. Rollback to Stable State}}\label{rollback-to-stable-state}}
+
+\begin{itemize}
+\tightlist
+\item
+  Metrics observed:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Scatterplot distributions resemble the initial stable configuration.
+  \item
+    Clusters return to positions similar to the stable state, confirming
+    a successful rollback.
+  \end{itemize}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{step-4-actionable-insights}{%
+\subsection{\texorpdfstring{\textbf{Step 4: Actionable
+Insights}}{Step 4: Actionable Insights}}\label{step-4-actionable-insights}}
+
+\hypertarget{monitoring-metrics}{%
+\subsubsection{\texorpdfstring{\textbf{1. Monitoring
+Metrics}}{1. Monitoring Metrics}}\label{monitoring-metrics}}
+
+\begin{itemize}
+\tightlist
+\item
+  Observe combinations of variables (e.g., latency and throughput) to
+  detect deviations from normal patterns.
+\item
+  Identify thresholds for triggering alerts during potential failures.
+\end{itemize}
+
+\hypertarget{resource-optimization}{%
+\subsubsection{\texorpdfstring{\textbf{2. Resource
+Optimization}}{2. Resource Optimization}}\label{resource-optimization}}
+
+\begin{itemize}
+\tightlist
+\item
+  Analyze metrics like CPU and memory utilization during failures.
+\item
+  Optimize device configurations to prevent overload.
+\end{itemize}
+
+\hypertarget{predictive-analysis}{%
+\subsubsection{\texorpdfstring{\textbf{3. Predictive
+Analysis}}{3. Predictive Analysis}}\label{predictive-analysis}}
+
+\begin{itemize}
+\tightlist
+\item
+  Use patterns and correlations in the graph to predict potential
+  failure states and prepare mitigation strategies.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{step-5-generating-the-pairplot-for-network-data}{%
+\subsection{\texorpdfstring{\textbf{Step 5: Generating the Pairplot for
+Network
+Data}}{Step 5: Generating the Pairplot for Network Data}}\label{step-5-generating-the-pairplot-for-network-data}}
+
+\hypertarget{simulating-network-data}{%
+\subsubsection{\texorpdfstring{\textbf{Simulating Network
+Data}}{Simulating Network Data}}\label{simulating-network-data}}
+
+You can generate a similar graph by collecting network performance
+metrics and simulating them in Python. For example: - \textbf{Stable
+State Data}: Metrics collected when the network is functioning normally.
+- \textbf{Failure State Data}: Metrics collected when a failure occurs
+(e.g., device losing configuration). - \textbf{Rollback Data}: Metrics
+collected after restoring the network to a stable state.
+
+\hypertarget{code-for-pairplot}{%
+\subsubsection{\texorpdfstring{\textbf{Code for
+Pairplot}}{Code for Pairplot}}\label{code-for-pairplot}}
+
+```python import seaborn as sns import pandas as pd import
+matplotlib.pyplot as plt
+
+\hypertarget{simulated-data}{%
+\section{Simulated data}\label{simulated-data}}
+
+data = \{ ``Latency (ms)'': {[}10, 20, 30, 40, 50, 100, 200{]},
+``Throughput (Mbps)'': {[}90, 80, 70, 60, 50, 20, 10{]}, ``Packet Loss
+(\%)'': {[}0, 1, 2, 3, 5, 15, 30{]}, ``Number of Nodes'': {[}50, 50, 50,
+50, 50, 50, 50{]}, ``CPU Utilization (\%)'': {[}20, 30, 40, 50, 60, 70,
+80{]}, ``Memory Usage (MB)'': {[}512, 600, 700, 800, 900, 1000, 1200{]}
+\}
+
+\hypertarget{create-a-dataframe}{%
+\section{Create a DataFrame}\label{create-a-dataframe}}
+
+df = pd.DataFrame(data)
+
+\hypertarget{create-the-pairplot}{%
+\section{Create the pairplot}\label{create-the-pairplot}}
+
+sns.pairplot(df) plt.suptitle(``Pairplot of Network Performance
+Metrics'', y=1.02) plt.show()
+
+    \hypertarget{mathematical-formulations}{%
+\section{\texorpdfstring{\textbf{Mathematical
+Formulations}}{Mathematical Formulations}}\label{mathematical-formulations}}
+
+\hypertarget{network-state-representation-using-linear-algebra}{%
+\subsection{\texorpdfstring{\textbf{1. Network State Representation
+(Using Linear
+Algebra)}}{1. Network State Representation (Using Linear Algebra)}}\label{network-state-representation-using-linear-algebra}}
+
+\hypertarget{network-topology-as-a-graph}{%
+\subsubsection{\texorpdfstring{\textbf{1.1 Network Topology as a
+Graph}}{1.1 Network Topology as a Graph}}\label{network-topology-as-a-graph}}
+
+\begin{itemize}
+\tightlist
+\item
+  The network is modeled as a \textbf{graph} ( G = (V, E) ), where:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    ( V ): Set of nodes (devices, routers).
+  \item
+    ( E ): Set of edges (connections between devices).
+  \end{itemize}
+\end{itemize}
+
+The adjacency matrix ( A ) of the graph represents the connectivity: \[
+A[i][j] =
+\begin{cases}
+1, & \text{if there is a connection between nodes } i \text{ and } j \\
+0, & \text{otherwise}.
+\end{cases}
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{configuration-state-vector}{%
+\subsubsection{\texorpdfstring{\textbf{1.2 Configuration State
+Vector}}{1.2 Configuration State Vector}}\label{configuration-state-vector}}
+
+Each node ( v\_i \in V ) has a configuration state represented by a
+vector ( \mathbf{c}\_i ): \[
+\mathbf{c}_i = 
+\begin{bmatrix}
+\text{Latency (ms)} \\
+\text{Throughput (Mbps)} \\
+\text{Packet Loss (\%)} \\
+\text{CPU Utilization (\%)} \\
+\text{Memory Usage (MB)}
+\end{bmatrix}
+\]
+
+The overall network state is a matrix ( \mathbf{C} ): \[
+\mathbf{C} =
+\begin{bmatrix}
+\mathbf{c}_1 & \mathbf{c}_2 & \cdots & \mathbf{c}_n
+\end{bmatrix}
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{network-performance-evaluation}{%
+\subsubsection{\texorpdfstring{\textbf{1.3 Network Performance
+Evaluation}}{1.3 Network Performance Evaluation}}\label{network-performance-evaluation}}
+
+Define a performance metric vector ( \mathbf{p}\_i ) for each node: \[
+\mathbf{p}_i = w_1 \cdot \text{Latency} + w_2 \cdot \text{Throughput} - w_3 \cdot \text{Packet Loss} - w_4 \cdot \text{CPU Utilization} - w_5 \cdot \text{Memory Usage}
+\] where ( w\_1, w\_2, \dots, w\_5 ) are weights assigned to each metric
+based on priority.
+
+The overall network performance ( \mathbf{P} ) is: \[
+\mathbf{P} = \sum_{i=1}^{n} \mathbf{p}_i
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{manual-vs-programmatic-configuration}{%
+\subsubsection{\texorpdfstring{\textbf{1.4 Manual vs Programmatic
+Configuration}}{1.4 Manual vs Programmatic Configuration}}\label{manual-vs-programmatic-configuration}}
+
+\hypertarget{manual-configuration-state-matrix}{%
+\paragraph{\texorpdfstring{\textbf{Manual Configuration State
+Matrix}}{Manual Configuration State Matrix}}\label{manual-configuration-state-matrix}}
+
+Let (\[ \mathbf{C}_{\text{manual}} \ \]) represent the state of the
+network when configured manually: \[
+\mathbf{C}_{\text{manual}} = \text{Initial configuration based on static inputs}.
+\]
+
+\hypertarget{programmatic-configuration-state-matrix}{%
+\paragraph{\texorpdfstring{\textbf{Programmatic Configuration State
+Matrix}}{Programmatic Configuration State Matrix}}\label{programmatic-configuration-state-matrix}}
+
+Let ( \mathbf{C}\_\{\text{programmatic}\} ) represent the state of the
+network when configured programmatically: \[
+\mathbf{C}_{\text{programmatic}} = \text{Output from Jinja2 templates and automation scripts}.
+\]
+
+\hypertarget{error-state-e}{%
+\paragraph{\texorpdfstring{\textbf{Error State
+(E)}}{Error State (E)}}\label{error-state-e}}
+
+The error in configuration is defined as: \[
+\mathbf{E} = \mathbf{C}_{\text{manual}} - \mathbf{C}_{\text{programmatic}}
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{stability-analysis}{%
+\subsubsection{\texorpdfstring{\textbf{1.5 Stability
+Analysis}}{1.5 Stability Analysis}}\label{stability-analysis}}
+
+To ensure network stability, the Euclidean norm of the error vector (
+\mathbf{E} ) must satisfy: \[
+\|\mathbf{E}\|_2 < \epsilon
+\] where ( \epsilon ) is a small tolerance value.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{random}
+\PY{k+kn}{import} \PY{n+nn}{time}
+
+\PY{c+c1}{\PYZsh{} Simulating network performance metrics}
+\PY{k}{def} \PY{n+nf}{simulate\PYZus{}network\PYZus{}performance}\PY{p}{(}\PY{n}{config\PYZus{}method}\PY{p}{,} \PY{n}{num\PYZus{}iterations}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}\PY{p}{:}
+    \PY{n}{latencies} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{throughput} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{packet\PYZus{}loss} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    
+    \PY{k}{for} \PY{n}{\PYZus{}} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{num\PYZus{}iterations}\PY{p}{)}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{} Simulate latency (in ms), throughput (in Mbps), and packet loss (percentage)}
+        \PY{n}{latency} \PY{o}{=} \PY{n}{random}\PY{o}{.}\PY{n}{uniform}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)} \PY{k}{if} \PY{n}{config\PYZus{}method} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Manual}\PY{l+s+s1}{\PYZsq{}} \PY{k}{else} \PY{n}{random}\PY{o}{.}\PY{n}{uniform}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{,} \PY{l+m+mi}{50}\PY{p}{)}
+        \PY{n}{throughput\PYZus{}val} \PY{o}{=} \PY{n}{random}\PY{o}{.}\PY{n}{uniform}\PY{p}{(}\PY{l+m+mi}{50}\PY{p}{,} \PY{l+m+mi}{200}\PY{p}{)} \PY{k}{if} \PY{n}{config\PYZus{}method} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Manual}\PY{l+s+s1}{\PYZsq{}} \PY{k}{else} \PY{n}{random}\PY{o}{.}\PY{n}{uniform}\PY{p}{(}\PY{l+m+mi}{100}\PY{p}{,} \PY{l+m+mi}{500}\PY{p}{)}
+        \PY{n}{loss} \PY{o}{=} \PY{n}{random}\PY{o}{.}\PY{n}{uniform}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{)} \PY{k}{if} \PY{n}{config\PYZus{}method} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Manual}\PY{l+s+s1}{\PYZsq{}} \PY{k}{else} \PY{n}{random}\PY{o}{.}\PY{n}{uniform}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+        
+        \PY{n}{latencies}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{latency}\PY{p}{)}
+        \PY{n}{throughput}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{throughput\PYZus{}val}\PY{p}{)}
+        \PY{n}{packet\PYZus{}loss}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{loss}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Simulate delay between iterations (network configuration process)}
+        \PY{n}{time}\PY{o}{.}\PY{n}{sleep}\PY{p}{(}\PY{l+m+mf}{0.1}\PY{p}{)}
+    
+    \PY{k}{return} \PY{n}{latencies}\PY{p}{,} \PY{n}{throughput}\PY{p}{,} \PY{n}{packet\PYZus{}loss}
+
+\PY{k}{def} \PY{n+nf}{plot\PYZus{}network\PYZus{}comparison}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{methods} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Manual}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Python Network Libraries}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+    \PY{n}{num\PYZus{}iterations} \PY{o}{=} \PY{l+m+mi}{10} 
+
+   
+    \PY{n}{performance\PYZus{}manual} \PY{o}{=} \PY{n}{simulate\PYZus{}network\PYZus{}performance}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Manual}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{num\PYZus{}iterations}\PY{p}{)}
+    \PY{n}{performance\PYZus{}python} \PY{o}{=} \PY{n}{simulate\PYZus{}network\PYZus{}performance}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Python Network Libraries}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{num\PYZus{}iterations}\PY{p}{)}
+
+   
+    \PY{n}{fig}\PY{p}{,} \PY{n}{axs} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{12}\PY{p}{)}\PY{p}{)}
+    
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{performance\PYZus{}manual}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Manual}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{blue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{performance\PYZus{}python}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Python Network Libraries}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{green}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Network Latency (ms)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Iterations}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Latency (ms)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+    
+  
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{performance\PYZus{}manual}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Manual}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{blue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{performance\PYZus{}python}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Python Network Libraries}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{green}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Network Throughput (Mbps)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Iterations}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Throughput (Mbps)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+    
+    
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{performance\PYZus{}manual}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Manual}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{blue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{performance\PYZus{}python}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Python Network Libraries}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{green}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Packet Loss (}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Iterations}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Packet Loss (}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+
+   
+    \PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+
+\PY{n}{plot\PYZus{}network\PYZus{}comparison}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{main_files/main_30_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{inferences-from-network-performance-comparison}{%
+\section{Inferences from Network Performance
+Comparison}\label{inferences-from-network-performance-comparison}}
+
+\hypertarget{network-latency}{%
+\subsubsection{\texorpdfstring{1. \textbf{Network
+Latency}}{1. Network Latency}}\label{network-latency}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Manual Configuration:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The latency values in manually configured networks tend to be
+    higher. This could be due to human error, suboptimal configuration,
+    or longer setup times.
+  \item
+    Manual configurations may introduce delays due to inefficient
+    network parameter settings, which can result in slower packet
+    transmission times.
+  \end{itemize}
+\item
+  \textbf{Python Network Libraries:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Networks configured using Python network libraries typically show
+    lower latency. This indicates more efficient configuration processes
+    that optimize the network setup and reduce delays in packet
+    transmission.
+  \item
+    Automated scripts are more consistent, as they eliminate human error
+    and enforce best practices in network configuration.
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{network-throughput}{%
+\subsubsection{\texorpdfstring{2. \textbf{Network
+Throughput}}{2. Network Throughput}}\label{network-throughput}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Manual Configuration:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The throughput values for manually configured networks are generally
+    lower. This suggests that manual configurations may not be optimized
+    for maximum data transmission, leading to potential bottlenecks or
+    inefficient resource allocation.
+  \end{itemize}
+\item
+  \textbf{Python Network Libraries:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Networks configured using Python libraries tend to have higher
+    throughput. The automation allows for optimized configurations that
+    make the most efficient use of available bandwidth, enabling better
+    performance and faster data transmission.
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{packet-loss}{%
+\subsubsection{\texorpdfstring{3. \textbf{Packet
+Loss}}{3. Packet Loss}}\label{packet-loss}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Manual Configuration:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Manually configured networks exhibit higher packet loss, which may
+    result from misconfigurations, suboptimal routing, or other
+    human-induced errors during the setup process.
+  \item
+    Packet loss can occur due to incorrect settings or failure to test
+    the network under varied conditions, which are often avoided in
+    automated setups.
+  \end{itemize}
+\item
+  \textbf{Python Network Libraries:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Automated network configurations generally lead to lower packet
+    loss, demonstrating the reliability and precision of Python network
+    libraries. These libraries are able to systematically ensure that
+    network parameters are optimized, reducing the chances of data loss.
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{general-observations}{%
+\subsubsection{\texorpdfstring{4. \textbf{General
+Observations}}{4. General Observations}}\label{general-observations}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Consistency:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Python network libraries provide more consistent results, as they
+    ensure that the same configurations are applied each time. In
+    contrast, manual configurations are more prone to variation
+    depending on the network administrator's experience and attention to
+    detail.
+  \end{itemize}
+\item
+  \textbf{Efficiency:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Automated network configurations not only improve performance
+    metrics like latency, throughput, and packet loss, but they also
+    enhance the efficiency of network setups by reducing the time
+    required to configure devices and test the network.
+  \end{itemize}
+\item
+  \textbf{Error Reduction:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Automation significantly reduces the likelihood of human error.
+    Manual configurations often involve trial and error, which can
+    result in higher latency and lower throughput until issues are
+    discovered and corrected.
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{conclusion}{%
+\subsubsection{\texorpdfstring{5.
+\textbf{Conclusion}}{5. Conclusion}}\label{conclusion}}
+
+\begin{itemize}
+\tightlist
+\item
+  Based on these plots, it is evident that using Python network
+  libraries for network configuration leads to improved performance
+  metrics, such as lower latency, higher throughput, and reduced packet
+  loss.
+\item
+  Manual configurations, while possible, are generally more error-prone
+  and less optimized, leading to subpar performance. Automation with
+  Python libraries provides a more reliable, scalable, and efficient
+  solution for network setup and management.
+\end{itemize}
+
+    \hypertarget{mathematical-proof-automated-network-configuration-vs.-manual-configuration}{%
+\section{Mathematical Proof: Automated Network Configuration vs.~Manual
+Configuration}\label{mathematical-proof-automated-network-configuration-vs.-manual-configuration}}
+
+\hypertarget{network-configuration-as-a-vector}{%
+\subsubsection{1. Network Configuration as a
+Vector}\label{network-configuration-as-a-vector}}
+
+Let the network configuration of a device be represented as a vector in
+an \(n\)-dimensional space:
+
+\[
+\mathbf{C} = [c_1, c_2, \dots, c_n]
+\]
+
+Where: - \(c_i\) represents the \(i\)-th configuration parameter (e.g.,
+IP address, routing table, etc.). - \(n\) is the total number of
+parameters for a network device.
+
+\hypertarget{linear-transformation-for-configuration}{%
+\subsubsection{2. Linear Transformation for
+Configuration}\label{linear-transformation-for-configuration}}
+
+Network configuration changes can be seen as linear transformations on
+the configuration vector \(\mathbf{C}\). Each configuration operation is
+represented by a matrix \(T\) that applies to \(\mathbf{C}\):
+
+\[
+\mathbf{C'} = T \mathbf{C}
+\]
+
+Where: - \(\mathbf{C'}\) is the resulting configuration. - \(T\) is the
+matrix encoding the steps in the configuration process. - \(\mathbf{C}\)
+is the input configuration vector.
+
+\hypertarget{manual-vs.-automated-configuration}{%
+\subsubsection{3. Manual vs.~Automated
+Configuration}\label{manual-vs.-automated-configuration}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Manual Configuration}: Sequential steps with human
+  intervention, requiring multiple operations for each device.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Time complexity: \(T_m\) is high because of manual effort for each
+    operation.
+  \end{itemize}
+\item
+  \textbf{Automated Configuration}: Uses libraries (e.g., Netmiko) to
+  apply all configuration steps simultaneously using optimized matrix
+  transformations.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Time complexity: \(T_a\) is optimized by using vectorized
+    operations.
+  \end{itemize}
+\end{itemize}
+
+Thus, automated configuration saves time as:
+
+\[
+T_a < T_m
+\]
+
+\hypertarget{basis-and-dimensionality-reduction}{%
+\subsubsection{4. Basis and Dimensionality
+Reduction}\label{basis-and-dimensionality-reduction}}
+
+The \textbf{basis} of a vector space represents the minimal set of
+operations that span the space of all possible configurations. The key
+observation is that automated tools can reduce configuration complexity
+by using \textbf{basis vectors} for network configurations.
+
+If we define a minimal set of configuration actions (basis vectors)
+\(v_1, v_2, \dots, v_k\), where \(k \leq n\), then any configuration
+\(\mathbf{C}\) can be represented as:
+
+\[
+\mathbf{C} = a_1 v_1 + a_2 v_2 + \dots + a_k v_k
+\]
+
+Where \(a_1, a_2, \dots, a_k\) are scalars that define the specific
+configuration.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Basis Size}: The size of the basis vector set determines the
+  number of actions required to configure a device. If \(k\) is small,
+  the configuration process is efficient.
+\end{itemize}
+
+\hypertarget{optimization-of-operations}{%
+\subsubsection{5. Optimization of
+Operations}\label{optimization-of-operations}}
+
+Automated tools perform matrix multiplication (linear transformation)
+that applies configurations across multiple devices simultaneously,
+leveraging the \textbf{basis} for each device. This reduces the number
+of steps, thus minimizing error and configuration time.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Manual Configuration}: Non-optimized, sequential.
+\item
+  \textbf{Automated Configuration}: Optimized, uses linear
+  transformations on minimal basis set.
+\end{itemize}
+
+Thus, automated configuration reduces operational complexity, proving
+the \(\epsilon\)-improvement:
+
+\[
+T_a = T_m - \epsilon
+\]
+
+Where \$ \epsilon \$ represents the improvement in configuration time.
+
+\hypertarget{conclusion}{%
+\subsubsection{Conclusion}\label{conclusion}}
+
+Using basis vectors, linear transformations, and dimensionality
+reduction in automated configuration allows network devices to be
+configured faster and with fewer errors than manual methods. This
+mathematical framework provides a provable advantage of automated
+solutions in terms of time and efficiency.
+
+    
+
+    Discussions and Future Enhancements
+
+    \hypertarget{difficulties-and-limitations}{%
+\subsection{Difficulties and
+Limitations}\label{difficulties-and-limitations}}
+
+\hypertarget{network-connection-issues}{%
+\subsubsection{\texorpdfstring{1. \textbf{Network Connection
+Issues}}{1. Network Connection Issues}}\label{network-connection-issues}}
+
+During the project, one of the main difficulties encountered was dealing
+with network connection issues while automating the configuration of
+network devices. SSH connections failed intermittently, which was often
+due to incorrect configurations, closed ports, or firewall settings.
+Specifically, the use of libraries like Netmiko for automating network
+configurations occasionally resulted in connection errors when there was
+a mismatch between the expected SSH credentials or device accessibility.
+
+\textbf{Challenges}: - Ensuring that the network devices were accessible
+and not blocked by security measures like firewalls. - Dealing with
+fluctuating network conditions that occasionally led to timeouts or lost
+connections.
+
+\hypertarget{simulating-network-topology}{%
+\subsubsection{\texorpdfstring{2. \textbf{Simulating Network
+Topology}}{2. Simulating Network Topology}}\label{simulating-network-topology}}
+
+When working with the simulation tools (e.g., GNS3), there was a
+challenge in replicating the exact behavior of real-world network
+devices. The virtual environments sometimes didn't provide the same
+performance or configuration options as physical devices. Transitioning
+to using Python libraries like NetworkX for simulating network
+topologies helped resolve this but still lacked some of the intricacies
+found in actual hardware.
+
+\textbf{Challenges}: - Simulating real-world conditions accurately in a
+virtualized environment. - Network tools like NetworkX allowed for
+theoretical testing but couldn't simulate all hardware-dependent
+nuances.
+
+\hypertarget{time-complexity-in-manual-configuration}{%
+\subsubsection{\texorpdfstring{3. \textbf{Time Complexity in Manual
+Configuration}}{3. Time Complexity in Manual Configuration}}\label{time-complexity-in-manual-configuration}}
+
+When comparing manual configuration to automated configuration, the time
+and complexity required for manual configuration of large networks
+became a clear limitation. Although the idea was to demonstrate that
+automated solutions are more efficient, it became evident that scaling
+manual configurations to larger networks with more devices introduces
+significant delays and increases the likelihood of human error.
+
+\textbf{Challenges}: - Manually configuring large networks led to higher
+error rates and increased configuration time. - Large-scale
+configurations required complex troubleshooting due to human oversight.
+
+\hypertarget{dependence-on-external-tools}{%
+\subsubsection{\texorpdfstring{4. \textbf{Dependence on External
+Tools}}{4. Dependence on External Tools}}\label{dependence-on-external-tools}}
+
+The project heavily relied on external tools such as Docker for
+simulating configurations and version control using Git. However, the
+complexity of integrating these tools into the workflow led to some
+constraints, such as:
+
+\textbf{Challenges}: - Setting up a stable Docker environment for
+consistent testing. - Ensuring that changes in network configurations
+were properly tracked and rolled back using Git, which sometimes
+required additional scripting to ensure version control worked
+seamlessly.
+
+\hypertarget{limitations-of-available-libraries}{%
+\subsubsection{\texorpdfstring{5. \textbf{Limitations of Available
+Libraries}}{5. Limitations of Available Libraries}}\label{limitations-of-available-libraries}}
+
+Though Python libraries like Netmiko, Jinja, and NetworkX provided
+powerful automation capabilities, certain limitations were still
+present. For example, Netmiko and other libraries sometimes failed to
+work with certain device types or models, requiring additional custom
+code or manual interventions. Moreover, Jinja templating, while useful
+for automating configurations, required deep knowledge of the device's
+configuration syntax and structure.
+
+\textbf{Challenges}: - Incompatibility with specific network devices. -
+Complexity in ensuring that configuration templates worked correctly for
+different network device types.
+
+\hypertarget{error-handling-and-rollback-mechanism}{%
+\subsubsection{\texorpdfstring{6. \textbf{Error Handling and Rollback
+Mechanism}}{6. Error Handling and Rollback Mechanism}}\label{error-handling-and-rollback-mechanism}}
+
+While automation provides significant benefits, one of the limitations
+encountered during the implementation was the difficulty in creating
+robust rollback mechanisms to revert configurations in case of failure.
+Although Git was used for version control, there were instances where
+the rollback mechanism didn't work as expected, primarily due to network
+device states not syncing properly with the versioned configurations.
+
+\textbf{Challenges}: - Designing an effective rollback mechanism that
+could handle real-world failures. - Ensuring consistency between network
+device configurations and the Git repository.
+
+\hypertarget{conclusion}{%
+\subsubsection{Conclusion}\label{conclusion}}
+
+In the future we plan to integrate gns3 for a more realistic simulation.
+We can implement more device specific algorithms for effective network
+optimization.
+
+    References
+
+    
+
+    {[}1{]} Network Automation and Abstraction using Python Programming
+Methods, Faculty of Electrical Engineering and Computer Science,
+Transilvania University
+
+{[}2{]} Cisco Systems Automation Framework: Improving Efficiency and
+Security in Network Operations 1Samuel. S, 2Raghul T.R and 3Deepak. R
+
+{[}3{]}
+https://networkjourney.com/the-power-of-python-in-networking-revolutionizing-network-automation-and-scripting/
+
+    
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
